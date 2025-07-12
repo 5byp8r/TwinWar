@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Fundo {
-    private SpriteBatch spriteBatch;
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
     private float worldWidth;
@@ -15,56 +14,49 @@ public class Fundo {
     private float fundoSpeed;
 
     public Fundo() {
-        spriteBatch = new SpriteBatch();
         backgroundTexture = new Texture("Texturas/FundoPrimeiraFase.png");
         backgroundSprite = new Sprite(backgroundTexture);
 
         worldWidth = Main.viewport.getWorldWidth();
         worldHeight = Main.viewport.getWorldHeight();
-        fundoSpeed = -0.005f;
+        fundoSpeed = -0.5f;
         drawInicial();
     }
 
     private void drawInicial() {
+        Main.batch.begin();
+        Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
         Main.viewport.apply();
-        spriteBatch.setProjectionMatrix(Main.viewport.getCamera().combined);
-        spriteBatch.begin();
-        spriteBatch.draw(backgroundSprite, 0, 8, worldWidth, worldHeight);
-        spriteBatch.end();
+        Main.batch.draw(backgroundSprite, 0, 8, worldWidth, worldHeight);
+        Main.batch.end();
     }
 
     public void draw() {
         Main.viewport.apply();
-        spriteBatch.setProjectionMatrix(Main.viewport.getCamera().combined);
-        spriteBatch.begin();
-        spriteBatch.draw(backgroundSprite, backgroundSprite.getX(), backgroundSprite.getY(), worldWidth,
+        Main.batch.draw(backgroundSprite, backgroundSprite.getX(), backgroundSprite.getY(), worldWidth,
                 worldHeight * 3);
-
-        spriteBatch.end();
     }
 
     public void mover() {
 
         if (!(backgroundSprite.getY() <= -16)) {
-           backgroundSprite.translateY(fundoSpeed);
-        } if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-        {
-            backgroundSprite.translateY(fundoSpeed * 10);
-        }
+           backgroundSprite.translateY(-0.5f * Gdx.graphics.getDeltaTime());
+        } 
+        // if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        // {
+        //     backgroundSprite.translateY(fundoSpeed * 10);
+        // }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
-        {
-            backgroundSprite.translateY(fundoSpeed * 10 * -1);
-        }
+        // if (Gdx.input.isKeyPressed(Input.Keys.UP))
+        // {
+        //     backgroundSprite.translateY(fundoSpeed * 10 * -1);
+        // }
          
 
     }
 
     public void dispose() {
         // Destroy screen's assets here.
-        if (spriteBatch != null) {
-            spriteBatch.dispose();
-        }
         if (backgroundTexture != null) {
             backgroundTexture.dispose();
         }

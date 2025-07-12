@@ -1,18 +1,29 @@
 package mg.cefet.info3.lp2tp2.twinbee;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
  * First screen of the application. Displayed after the application is created.
  */
 public class FirstScreen implements Screen {
+    private float tempo = 0;
     private Fundo fundo;
+    private Player player;
+    private Inimigo inimigo;
+    private ArrayList<Tiro> tiros;
 
     @Override
     public void show() {
         fundo = new Fundo();
+        player = new Player(new Texture("Texturas/aviao.png"));
+        inimigo = new Inimigo(new Texture("Texturas/c418.png"));
+        tiros = new ArrayList<>();
         // Prepare your screen here.
     }
 
@@ -24,13 +35,30 @@ public class FirstScreen implements Screen {
     }
 
     private void logic() {
+        inimigo.mover();
+        player.mover();
+        tempo += Gdx.graphics.getDeltaTime();
+        if (tempo >= Gdx.graphics.getDeltaTime() * 5) {
+            player.atirar(tiros); 
+            tempo = 0;
+        }
+        for (Tiro tiro : tiros) {
+            tiro.mover();
+        }
         fundo.mover();
-
     }
 
     private void draw() {
         ScreenUtils.clear(Color.BLACK);
+        Main.batch.begin();
+        Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
         fundo.draw();
+        inimigo.draw();
+        for (Tiro tiro : tiros) {
+            tiro.draw();
+        }
+        player.draw();
+        Main.batch.end();
     }
 
     @Override
