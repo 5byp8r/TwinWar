@@ -1,5 +1,8 @@
 .gitkeep
 Texturas/FundoPrimeiraFase.png
+Texturas/aviao.png
+Texturas/c418.png
+Texturas/lula.jpg
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt
