@@ -15,7 +15,9 @@ public class Main extends Game {
         viewport = new FitViewport(8, 8);
         viewport.setScreenSize(800, 800);
         batch.setProjectionMatrix(Main.viewport.getCamera().combined);
-        setScreen(new FirstScreen());
+        //setScreen(new FirstScreen());
+        setScreen(new Menu(this));
+        
     }
 
     @Override

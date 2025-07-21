@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Player extends ObjetoMovel {
@@ -14,18 +13,28 @@ public class Player extends ObjetoMovel {
 
     @Override
     public void mover() {
-        if (Gdx.input.isKeyPressed(Keys.LEFT)
-                || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftX) < 0)
+        //Controller manete = Controllers.getCurrent();
+
+        if (Gdx.input.isKeyPressed(Keys.LEFT)){
+            //    || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftX) < 0)
             sprite.translateX(-3 * Gdx.graphics.getDeltaTime());
-        if (Gdx.input.isKeyPressed(Keys.RIGHT)
-                || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftX) > 0)
+        }
+            
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)){
+            //|| Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftX) > 0)
             sprite.translateX(3 * Gdx.graphics.getDeltaTime());
-        if (Gdx.input.isKeyPressed(Keys.DOWN)
-                || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftY) > 0.5)
+        }
+                
+        if (Gdx.input.isKeyPressed(Keys.DOWN)){
+            //    || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftY) > 0.5)
             sprite.translateY(-3 * Gdx.graphics.getDeltaTime());
-        if (Gdx.input.isKeyPressed(Keys.UP)
-                || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftY) < 0)
+        }
+            
+        if (Gdx.input.isKeyPressed(Keys.UP)){
+            //    || Controllers.getCurrent().getAxis(Controllers.getCurrent().getMapping().axisLeftY) < 0)
             sprite.translateY(3 * Gdx.graphics.getDeltaTime());
+        }
+            
 
         // make sure the bucket stays within the screen bounds
         if (sprite.getX() < 0)
@@ -39,8 +48,10 @@ public class Player extends ObjetoMovel {
     }
 
     public void atirar(ArrayList<Tiro> tiros) {
-        if (Gdx.input.isKeyPressed(Keys.SPACE)
-                || Controllers.getCurrent().getButton(Controllers.getCurrent().getMapping().buttonA))
+        if (Gdx.input.isKeyPressed(Keys.SPACE)){
+            //    || Controllers.getCurrent().getButton(Controllers.getCurrent().getMapping().buttonA))
             tiros.add(new Tiro(new Texture("Texturas/lula.jpg"), sprite.getX(), sprite.getY()));
+        }
+            
     }
 }
