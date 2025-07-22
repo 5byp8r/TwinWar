@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Fundo {
     private Texture backgroundTexture;
@@ -12,14 +11,15 @@ public class Fundo {
     private float worldWidth;
     private float worldHeight;
     private float fundoSpeed;
+    private boolean mover;
 
     public Fundo() {
         backgroundTexture = new Texture("Texturas/FundoPrimeiraFase.png");
         backgroundSprite = new Sprite(backgroundTexture);
-
         worldWidth = Main.viewport.getWorldWidth();
         worldHeight = Main.viewport.getWorldHeight();
         fundoSpeed = -0.5f;
+        mover = true;
         drawInicial();
     }
 
@@ -40,18 +40,21 @@ public class Fundo {
     public void mover() {
 
         if (!(backgroundSprite.getY() <= -16)) {
-           backgroundSprite.translateY(-0.5f * Gdx.graphics.getDeltaTime());
-        } 
-        // if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-        // {
-        //     backgroundSprite.translateY(fundoSpeed * 10);
-        // }
+            backgroundSprite.translateY(-0.5f * Gdx.graphics.getDeltaTime());
 
-        // if (Gdx.input.isKeyPressed(Input.Keys.UP))
-        // {
-        //     backgroundSprite.translateY(fundoSpeed * 10 * -1);
-        // }
-         
+        }
+        if ((backgroundSprite.getY() <= -10)) {
+            mover = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+        {
+        backgroundSprite.translateY(fundoSpeed * 1);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
+        {
+        backgroundSprite.translateY(fundoSpeed * -1);
+        }
 
     }
 
@@ -60,5 +63,29 @@ public class Fundo {
         if (backgroundTexture != null) {
             backgroundTexture.dispose();
         }
+    }
+
+    public Texture getBackgroundTexture() {
+        return backgroundTexture;
+    }
+
+    public Sprite getBackgroundSprite() {
+        return backgroundSprite;
+    }
+
+    public float getWorldWidth() {
+        return worldWidth;
+    }
+
+    public float getWorldHeight() {
+        return worldHeight;
+    }
+
+    public float getFundoSpeed() {
+        return fundoSpeed;
+    }
+
+    public boolean isMover() {
+        return mover;
     }
 }

@@ -1,7 +1,9 @@
 .gitkeep
+Texturas/Aviao.png
 Texturas/AviaoGuerra.jpg
 Texturas/FundoPrimeiraFase.png
-Texturas/aviao.png
+Texturas/Tiro.png
+Texturas/Torre.png
 Texturas/c418.png
 Texturas/lula.jpg
 ui/font-list.fnt
