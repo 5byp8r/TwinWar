@@ -1,4 +1,5 @@
 .gitkeep
+Texturas/AviaoGuerra.jpg
 Texturas/FundoPrimeiraFase.png
 Texturas/aviao.png
 Texturas/c418.png
