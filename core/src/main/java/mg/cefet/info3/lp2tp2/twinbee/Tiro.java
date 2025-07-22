@@ -9,8 +9,14 @@ public class Tiro extends ObjetoMovel {
         sprite.setPosition(x, y);
     }
 
+    public void mover(float velocidadeTiro) {
+        sprite.translateY(velocidadeTiro * Gdx.graphics.getDeltaTime());
+        if (sprite.getY() <= -2 || sprite.getY() >=  8) {
+            sprite.setPosition(sprite.getX() + 10, sprite.getY() + 10);
+        }
+    }
+
     @Override
     public void mover() {
-        sprite.translateY(10 * Gdx.graphics.getDeltaTime());
     }
 }

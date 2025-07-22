@@ -6,9 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
@@ -20,20 +17,16 @@ public class FirstScreen implements Screen {
     private Player player;
     private Inimigo inimigo;
     private ArrayList<Tiro> tiros;
-    private ArrayList<ObjetoMovel> moveis;
-    private World mundo;
-    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+    private ArrayList<Torre> torres;
 
     @Override
     public void show() {
         fundo = new Fundo();
         player = new Player(new Texture("Texturas/aviao.png"));
         inimigo = new Inimigo(new Texture("Texturas/c418.png"));
-        moveis = new ArrayList<>();
-        moveis.add(player);
-        moveis.add(inimigo);
         tiros = new ArrayList<>();
-        mundo = new World(new Vector2(0, -10), true);
+        torres = new ArrayList<>();
+        Torre.criarTorres(torres, 5);
         // Prepare your screen here.
     }
 
@@ -41,23 +34,22 @@ public class FirstScreen implements Screen {
     public void render(float delta) {
         logic();
         draw();
-        mundo.step(1 / 60f, 6, 2);
         // Draw your screen here. "delta" is the time since last render in seconds.
     }
 
     private void logic() {
         inimigo.mover();
         player.mover();
+        Torre.mover(torres, fundo.isMover(), player, tiros);
         tempo += Gdx.graphics.getDeltaTime();
-        if (tempo >= Gdx.graphics.getDeltaTime() * 5) {
+        if (tempo >= Gdx.graphics.getDeltaTime() * 35) {
             player.atirar(tiros);
             tempo = 0;
         }
         for (Tiro tiro : tiros) {
-            tiro.mover();
+            tiro.mover(10);
         }
         fundo.mover();
-        GerenciadorDeColisao.colisao(moveis);
     }
 
     private void draw() {
@@ -65,13 +57,13 @@ public class FirstScreen implements Screen {
         Main.batch.begin();
         Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
         fundo.draw();
+        Torre.draw(torres);
         inimigo.draw();
         for (Tiro tiro : tiros) {
             tiro.draw();
         }
         player.draw();
         Main.batch.end();
-        debugRenderer.render(mundo, Main.batch.getProjectionMatrix());
     }
 
     @Override
