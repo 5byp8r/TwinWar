@@ -1,10 +1,15 @@
 .gitkeep
+Sons/BossDeath.mp3
+Sons/Explosion.mp3
+Sons/Tiro.mp3
 Texturas/AviaoGuerra.jpg
 Texturas/FundoPrimeiraFase.png
+Texturas/FundoSegundaFase.png
 Texturas/Jogador.png
 Texturas/Tiro.png
 Texturas/Torre.png
 Texturas/inimigo.png
+Texturas/logo.png
 ui/font-list.fnt
 ui/font-subtitle.fnt
 ui/font-window.fnt

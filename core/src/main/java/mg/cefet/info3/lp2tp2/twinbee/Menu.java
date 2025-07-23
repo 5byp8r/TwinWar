@@ -19,9 +19,11 @@ public class Menu implements Screen{
     private Stage stage;
     private Skin skin;
     private TextButton button;
+    Texture logoTexture;
 
     public Menu(Main game) {
         this.game = game; 
+        logoTexture = new Texture("Texturas/logo.png");
     }
 
     public void button() {
@@ -50,8 +52,12 @@ public class Menu implements Screen{
         Main.batch.begin();
         Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
         game.batch.draw(backgroundTexture, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+        game.batch.draw(logoTexture,
+                        game.viewport.getWorldWidth() / 2 - logoTexture.getWidth() * game.viewport.getWorldWidth() / 3000, 6,
+                        logoTexture.getWidth() * game.viewport.getWorldWidth() / 1500,
+                        logoTexture.getHeight() * game.viewport.getWorldHeight() / 1500);
+                stage.act(Gdx.graphics.getDeltaTime());
         Main.batch.end();
-        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         button();
     }

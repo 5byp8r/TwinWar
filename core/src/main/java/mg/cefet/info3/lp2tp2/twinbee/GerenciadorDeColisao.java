@@ -50,6 +50,7 @@ public class GerenciadorDeColisao {
             if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(inimigo.sprite.getBoundingRectangle())) {
                 tiro.sprite.setX(15);
                 System.out.println("Inimigo morto");
+                //score+=10;
                 inimigo.sprite.setPosition(10, 0);
                 break;
             }
