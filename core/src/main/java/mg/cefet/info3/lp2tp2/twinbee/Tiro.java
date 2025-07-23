@@ -46,5 +46,4 @@ public class Tiro extends ObjetoMovel {
     public void setDisparado(boolean disparado) {
         this.disparado = disparado;
     }
-    
 }

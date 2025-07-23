@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import mg.cefet.info3.lp2tp2.twinbee.Inimigo.TipoInimigo;
+
 /**
  * First screen of the application. Displayed after the application is created.
  */
@@ -15,17 +17,23 @@ public class FirstScreen implements Screen {
     private float tempo = 0;
     private Fundo fundo;
     private Player player;
-    private Inimigo inimigo;
-    private ArrayList<Torre> torres;
+    // private Inimigo inimigo;
+    // private ArrayList<Torre> torres;
+    private ArrayList<Atirador> atiradores;
 
     @Override
     public void show() {
         fundo = new Fundo();
-        player = new Player(new Texture("Texturas/Jogador.png"));
-        inimigo = new Inimigo(new Texture("Texturas/inimigo.png"), player.sprite);
-        torres = new ArrayList<>();
-        Torre.criarTorres(torres, 5);
-        // Prepare your screen here.
+        player = new Player(new Texture("Texturas/jogador.png"));
+
+        // inimigo = new Inimigo(new Texture("Texturas/inimigo.png"), player.sprite);
+        // torres = new ArrayList<>();
+
+        atiradores = new ArrayList<>();
+        
+        Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.DINAMICO);
+        Torre.criarTorres(atiradores, 5);
+        // atiradores.addAll(torres);
     }
 
     @Override
@@ -36,15 +44,26 @@ public class FirstScreen implements Screen {
     }
 
     private void logic() {
-        inimigo.mover();
         player.mover();
-        Torre.mover(torres, fundo.isMover());
-        GerenciadorDeColisao.checarColisaoTorre(torres, player);
-        GerenciadorDeColisao.checarColisaoInimigo(inimigo, player);
+        for (Atirador atirador : atiradores) {
+            atirador.mover();
+        }
+
+        // Torre.mover(torres, fundo.isMover());
+
+        // GerenciadorDeColisao.checarColisaoTorre(torres, player);
+        // GerenciadorDeColisao.checarColisaoInimigo(inimigo, player);
+
+        GerenciadorDeColisao.checarColisao(atiradores, player);
+
         tempo += Gdx.graphics.getDeltaTime();
         if (tempo >= Gdx.graphics.getDeltaTime() * 30) {
             player.atirar();
-            Torre.atirar(torres, fundo.isMover());
+            // inimigo.atirar();
+            // Torre.atirar(torres, fundo.isMover());
+            for (Atirador atirador : atiradores) {
+                atirador.atirar();
+            }
             tempo = 0;
         }
         Tiro.updateTiros(player.getTiros());
@@ -59,9 +78,10 @@ public class FirstScreen implements Screen {
         Main.batch.begin();
         Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
         fundo.draw();
-        Torre.draw(torres);
-        inimigo.draw();
         Tiro.drawTiros(player.getTiros());
+        for (Atirador atirador : atiradores) {
+            atirador.draw();
+        }
         player.draw();
         Main.batch.end();
     }
