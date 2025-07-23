@@ -4,55 +4,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GerenciadorDeColisao {
-    // public static void colisao(ArrayList<ObjetoMovel> moveis) {
-    // for (int i = 0; i < moveis.size(); i++) {
-    // for (int j = 0; j < moveis.size(); j++) {
-    // if (i != j) {
-    // if
-    // (moveis.get(i).sprite.getBoundingRectangle().overlaps(moveis.get(j).sprite.getBoundingRectangle()))
-    // {
-    // moveis.set(j, null);
-    // moveis.remove(j);
-    // }
-    // }
-    // }
-    // }
-    // }
-
-    public static void checarColisaoTorre(ArrayList<Torre> torres, Player player) {
-        Iterator<Torre> iterator = torres.iterator();
+    public static void checarColisao(ArrayList<Atirador> atiradores, Player player) {
+        Iterator<Atirador> iterator = atiradores.iterator();
         while (iterator.hasNext()) {
-            Torre torre = iterator.next();
-
-            if (torre.getTiro().sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle())) {
+            Atirador movel = iterator.next();
+            
+            if (player.sprite.getBoundingRectangle().overlaps(movel.sprite.getBoundingRectangle())) {
+                iterator.remove();
                 System.out.println("Dano tomado");
-                torre.getTiro().sprite.setPosition(10, 0);
             }
 
-            for (Tiro tiro : player.getTiros()) {
-                if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(torre.sprite.getBoundingRectangle())) {
-                    iterator.remove();
-                    tiro.sprite.setX(15);
-                    System.out.println("Torre morta");
+            for (Tiro tiro : movel.getTiros()) {
+                if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle())) {
+                    System.out.println("Dano tomado");
+                    tiro.sprite.setPosition(10, 0);
                     break;
                 }
             }
-        }
-    }
 
-    public static void checarColisaoInimigo(Inimigo inimigo, Player player) {
-
-        if (player.sprite.getBoundingRectangle().overlaps(inimigo.sprite.getBoundingRectangle())) {
-            System.out.println("Dano tomado pelo inimigo");
-            inimigo.sprite.setPosition(10, 0);
-        }
-        for (Tiro tiro : player.getTiros()) {
-            if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(inimigo.sprite.getBoundingRectangle())) {
-                tiro.sprite.setX(15);
-                System.out.println("Inimigo morto");
-                //score+=10;
-                inimigo.sprite.setPosition(10, 0);
-                break;
+            for (Tiro tiro : player.getTiros()) {
+                if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(movel.sprite.getBoundingRectangle())) {
+                    iterator.remove();
+                    tiro.sprite.setX(15);
+                    System.out.println("Móvel morto");
+                    break;
+                }
             }
         }
     }

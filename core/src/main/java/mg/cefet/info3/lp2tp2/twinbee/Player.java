@@ -6,19 +6,11 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Player extends ObjetoMovel {
-    private Tiro[] tiros;
-    private int proximoTiro;
+public class Player extends Atirador {
 
     public Player(Texture texture) {
-        super(texture);
-        tiros = new Tiro[10];
-        for (int i = 0; i < tiros.length; i++) {
-            tiros[i] = new Tiro(new Texture("Texturas/Tiro.png"), 20, 8);
-        }
-        proximoTiro = 0;
-        sprite.setPosition((Main.viewport.getWorldWidth() / 2) - 0.5f, 0);
-
+        super(texture, 10);
+        sprite.setPosition((Main.viewport.getWorldWidth() / 2) - 0.5f,2);
     }
 
     @Override
@@ -52,27 +44,12 @@ public class Player extends ObjetoMovel {
             sprite.setY(Main.viewport.getWorldHeight() - sprite.getHeight());
     }
 
+    @Override
     public void atirar() {
         if (Gdx.input.isKeyPressed(Keys.SPACE) || (Controllers.getCurrent() == null ? false
                 : (Controllers.getCurrent().getButton(Controllers.getCurrent().getMapping().buttonA)))) {
-
-            Tiro tiro = tiros[proximoTiro];
-            if (!tiro.isDisparado()) {
-                tiro.sprite.setPosition(sprite.getX() + sprite.getWidth() / 2 - tiro.sprite.getWidth() / 2,
-                        sprite.getY());
-                tiro.setDisparado(true);
-
-                proximoTiro = (proximoTiro + 1) % tiros.length;
-            }
+            super.atirar();
         }
-    }
-
-    public Tiro[] getTiros() {
-        return tiros;
-    }
-
-    public void setTiros(Tiro[] tiros) {
-        this.tiros = tiros;
     }
 
 }
