@@ -14,7 +14,13 @@ public class Fundo {
     private boolean mover;
 
     public Fundo() {
-        backgroundTexture = new Texture("Texturas/FundoPrimeiraFase.png");
+        if (Main.numeroFase == 1) {
+            backgroundTexture = new Texture("Texturas/FundoPrimeiraFase.png");
+        }
+        if (Main.numeroFase == 2) {
+            backgroundTexture = new Texture("Texturas/FundoSegundaFase.png");
+        }
+
         backgroundSprite = new Sprite(backgroundTexture);
         worldWidth = Main.viewport.getWorldWidth();
         worldHeight = Main.viewport.getWorldHeight();
@@ -46,14 +52,16 @@ public class Fundo {
         if ((backgroundSprite.getY() <= -10)) {
             mover = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W))
-        {
-        backgroundSprite.translateY(fundoSpeed * 1);
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            backgroundSprite.translateY(fundoSpeed * 1);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
-        {
-        backgroundSprite.translateY(fundoSpeed * -1);
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            backgroundSprite.translateY(fundoSpeed * -1);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            Main.numeroFase = 2;
         }
 
     }

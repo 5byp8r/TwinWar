@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Torre extends ObjetoMovel {
-    static Random random;
+    public static Random random;
     private static Iterator<Torre> iterator;
     private Tiro tiro;
 
@@ -18,13 +18,12 @@ public class Torre extends ObjetoMovel {
         tiro = new Tiro(new Texture("Texturas/Tiro.png"), 20, 8);
     }
 
-    public static void mover(ArrayList<Torre> torres, boolean isFundoMovendo, Player player, Tiro[] tiros) {
+    public static void mover(ArrayList<Torre> torres, boolean isFundoMovendo) {
         for (Torre torre : torres) {
             torre.sprite.translateY(-0.5f * Gdx.graphics.getDeltaTime());
             torre.tiro.mover(-10);
         }
-        updateTiro(torres, isFundoMovendo, player);
-        updateTorre(torres, isFundoMovendo, tiros);
+        updateTorre(torres, isFundoMovendo);
     }
 
     public static void criarTorres(ArrayList<Torre> torres, int quantidade) {
@@ -44,22 +43,31 @@ public class Torre extends ObjetoMovel {
 
     private static void posicionarTorres(ArrayList<Torre> torres) {
         for (Torre torre : torres) {
-            torre.sprite.setPosition(random.nextFloat(4) + 3, random.nextFloat(10) + 10);
+            if (Main.numeroFase == 1) {
+                torre.sprite.setPosition(random.nextFloat(4) + 3, random.nextFloat(10) + 8);
+            }
+            if (Main.numeroFase == 2) {
+                torre.sprite.setPosition(random.nextFloat(8), random.nextFloat(16) + 8);
+            }
+
         }
     }
 
-    private static void updateTiro(ArrayList<Torre> torres, boolean isFundoMovendo, Player player) {
+    public static void atirar(ArrayList<Torre> torres, boolean isFundoMovendo) {
         for (Torre torre : torres) {
-            if (torre.sprite.getY() < 7 || torre.sprite.getY() < -2) {
-                torre.tiro.sprite.setX(torre.sprite.getX());
-            }
-            if (torre.tiro.sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle())) {
-                System.out.println("Dano tomado");
+            System.out.println();
+            if (torre.sprite.getY() < 7) {
+                if (!torre.tiro.isDisparado()) {
+                    torre.tiro.sprite.setPosition(
+                            torre.sprite.getX() + torre.sprite.getWidth() / 2 - torre.tiro.sprite.getWidth() / 2,
+                            torre.sprite.getY());
+                    torre.tiro.setDisparado(true);
+                }
             }
         }
     }
 
-    private static void updateTorre(ArrayList<Torre> torres, boolean isFundoMovendo, Tiro[] tiros) {
+    private static void updateTorre(ArrayList<Torre> torres, boolean isFundoMovendo) {
         iterator = torres.iterator();
         while (iterator.hasNext()) {
             Torre torre = iterator.next();
@@ -67,22 +75,38 @@ public class Torre extends ObjetoMovel {
             if (torre.sprite.getY() <= -2) {
                 iterator.remove();
             }
-            if (!isFundoMovendo) {
+            if (!isFundoMovendo && Main.numeroFase != 2) {
                 iterator.remove();
                 System.out.println("Torre deletada");
-            }
-            for (Tiro tiro : tiros) {
-                if (tiro == null ? false : (tiro.sprite.getBoundingRectangle().overlaps(torre.sprite.getBoundingRectangle()))) {
-                    iterator.remove();
-                    tiro.sprite.setX(15);
-                    System.out.println("Torre morta");
-                    break;
-                }
             }
         }
     }
 
     @Override
     public void mover() {
+    }
+
+    public static Random getRandom() {
+        return random;
+    }
+
+    public static void setRandom(Random random) {
+        Torre.random = random;
+    }
+
+    public static Iterator<Torre> getIterator() {
+        return iterator;
+    }
+
+    public static void setIterator(Iterator<Torre> iterator) {
+        Torre.iterator = iterator;
+    }
+
+    public Tiro getTiro() {
+        return tiro;
+    }
+
+    public void setTiro(Tiro tiro) {
+        this.tiro = tiro;
     }
 }
