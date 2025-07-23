@@ -8,9 +8,10 @@ public abstract class ObjetoMovel {
 
     public ObjetoMovel(Texture texture) {
         sprite = new Sprite(texture);
-        sprite.setPosition(0, 0);
         sprite.setSize(Main.viewport.getWorldWidth() * texture.getWidth() / (Main.viewport.getScreenWidth() * 1.5f),
-                Main.viewport.getWorldWidth() * texture.getHeight() / (Main.viewport.getScreenHeight() * 1.5f));
+        Main.viewport.getWorldWidth() * texture.getHeight() / (Main.viewport.getScreenHeight() * 1.5f));
+        sprite.setCenter(sprite.getWidth()/2, sprite.getHeight()/2);
+        sprite.setPosition(0, 0);
     }
 
     public abstract void mover();
