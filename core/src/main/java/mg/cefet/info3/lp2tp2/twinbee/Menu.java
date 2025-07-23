@@ -2,6 +2,7 @@ package mg.cefet.info3.lp2tp2.twinbee;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -44,7 +45,7 @@ public class Menu implements Screen{
 
     @Override
     public void render(float delta) {
-
+        logic();
         ScreenUtils.clear(Color.BLACK);
         Main.batch.begin();
         Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
@@ -53,6 +54,14 @@ public class Menu implements Screen{
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         button();
+    }
+
+    private void logic(){
+        if (Controllers.getCurrent() == null ? false : (Controllers.getCurrent().getButton(Controllers.getCurrent().getMapping().buttonStart))) {
+            for (com.badlogic.gdx.scenes.scene2d.EventListener listener : button.getListeners()) {
+                ((ClickListener)listener).clicked(null, 0, 0);
+            }
+        }
     }
 
     @Override

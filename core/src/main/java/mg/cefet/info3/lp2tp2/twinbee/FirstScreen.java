@@ -16,15 +16,13 @@ public class FirstScreen implements Screen {
     private Fundo fundo;
     private Player player;
     private Inimigo inimigo;
-    private ArrayList<Tiro> tiros;
     private ArrayList<Torre> torres;
 
     @Override
     public void show() {
         fundo = new Fundo();
         player = new Player(new Texture("Texturas/Jogador.png"));
-        inimigo = new Inimigo(new Texture("Texturas/inimigo.png"));
-        tiros = new ArrayList<>();
+        inimigo = new Inimigo(new Texture("Texturas/inimigo.png"), player.sprite);
         torres = new ArrayList<>();
         Torre.criarTorres(torres, 5);
         // Prepare your screen here.
@@ -40,14 +38,16 @@ public class FirstScreen implements Screen {
     private void logic() {
         inimigo.mover();
         player.mover();
-        Torre.mover(torres, fundo.isMover(), player, tiros);
+        Torre.mover(torres, fundo.isMover(), player, player.getTiros());
         tempo += Gdx.graphics.getDeltaTime();
-        if (tempo >= Gdx.graphics.getDeltaTime() * 35) {
-            player.atirar(tiros);
+        if (tempo >= Gdx.graphics.getDeltaTime() * 5) {
+            player.atirar();
             tempo = 0;
         }
-        for (Tiro tiro : tiros) {
-            tiro.mover(10);
+        for (Tiro tiro : player.getTiros()) {
+            if (tiro != null) {
+                tiro.mover(10);
+            }
         }
         fundo.mover();
     }
@@ -59,8 +59,10 @@ public class FirstScreen implements Screen {
         fundo.draw();
         Torre.draw(torres);
         inimigo.draw();
-        for (Tiro tiro : tiros) {
-            tiro.draw();
+        for (Tiro tiro : player.getTiros()) {
+            if (tiro != null) {
+                tiro.draw();
+            }
         }
         player.draw();
         Main.batch.end();

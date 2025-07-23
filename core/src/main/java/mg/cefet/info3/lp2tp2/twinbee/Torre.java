@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Torre extends ObjetoMovel {
     static Random random;
-    private static Iterator iterator;
+    private static Iterator<Torre> iterator;
     private Tiro tiro;
 
     public Torre() {
@@ -18,7 +18,7 @@ public class Torre extends ObjetoMovel {
         tiro = new Tiro(new Texture("Texturas/Tiro.png"), 20, 8);
     }
 
-    public static void mover(ArrayList<Torre> torres, boolean isFundoMovendo, Player player, ArrayList<Tiro> tiros) {
+    public static void mover(ArrayList<Torre> torres, boolean isFundoMovendo, Player player, Tiro[] tiros) {
         for (Torre torre : torres) {
             torre.sprite.translateY(-0.5f * Gdx.graphics.getDeltaTime());
             torre.tiro.mover(-10);
@@ -59,10 +59,10 @@ public class Torre extends ObjetoMovel {
         }
     }
 
-    private static void updateTorre(ArrayList<Torre> torres, boolean isFundoMovendo, ArrayList<Tiro> tiros) {
+    private static void updateTorre(ArrayList<Torre> torres, boolean isFundoMovendo, Tiro[] tiros) {
         iterator = torres.iterator();
         while (iterator.hasNext()) {
-            Torre torre = (Torre) iterator.next();
+            Torre torre = iterator.next();
 
             if (torre.sprite.getY() <= -2) {
                 iterator.remove();
@@ -72,10 +72,11 @@ public class Torre extends ObjetoMovel {
                 System.out.println("Torre deletada");
             }
             for (Tiro tiro : tiros) {
-                if (tiro.sprite.getBoundingRectangle().overlaps(torre.sprite.getBoundingRectangle())) {
+                if (tiro == null ? false : (tiro.sprite.getBoundingRectangle().overlaps(torre.sprite.getBoundingRectangle()))) {
                     iterator.remove();
                     tiro.sprite.setX(15);
                     System.out.println("Torre morta");
+                    break;
                 }
             }
         }

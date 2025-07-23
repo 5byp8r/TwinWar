@@ -8,18 +8,12 @@ public class FuncoesDeMovimentacao {
     private int tipoMovimento;
     private Vector2 pontoA, pontoB;
 
-    public FuncoesDeMovimentacao(int tipoMovimento){
+    public FuncoesDeMovimentacao(int tipoMovimento, Vector2 posPlayer){
         this.tipoMovimento = tipoMovimento;
         
-        if (tipoMovimento == 0) {
-            Random rand = new Random();
-            int a, b;
-            do {
-                a = rand.nextInt(6) + 1;
-                b = rand.nextInt(6) + 1;
-            } while (a - b < 4 && a - b > -4);
-            pontoA = new Vector2(a, 9);
-            pontoB = new Vector2(b, -1);
+        if (tipoMovimento == 0) {           
+            pontoA = new Vector2(new Random().nextInt(6) + 1, 9);
+            pontoB = posPlayer.cpy();
         }
     }
 
