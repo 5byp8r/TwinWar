@@ -1,41 +1,64 @@
 package mg.cefet.info3.lp2tp2.twinbee;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Menu implements Screen{
 
     Main game;
     Texture backgroundTexture;
+    private Stage stage;
+    private Skin skin;
+    private TextButton button;
 
     public Menu(Main game) {
         this.game = game; 
     }
-    public void startGame(){
-        if (Gdx.input.isKeyPressed(Keys.ENTER)){
-            game.setScreen(new FirstScreen());
-            dispose();
-        }
+
+    public void button() {
+        Gdx.input.setInputProcessor(stage);
+
+        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+
+        button = new TextButton("Start Game", skin);
+        button.setSize(200, 50);
+        button.setPosition(Gdx.graphics.getWidth() / 2f - 100, Gdx.graphics.getHeight() - 700);
+
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new FirstScreen());
+                dispose();
+            }
+        });
+
+        stage.addActor(button);
     }
 
     @Override
     public void render(float delta) {
-        startGame();
 
         ScreenUtils.clear(Color.BLACK);
         Main.batch.begin();
         Main.batch.setProjectionMatrix(Main.viewport.getCamera().combined);
         game.batch.draw(backgroundTexture, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         Main.batch.end();
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+        button();
     }
 
     @Override
     public void show() {
         backgroundTexture = new Texture("Texturas/AviaoGuerra.jpg");
+        stage = new Stage();
     }
 
     @Override

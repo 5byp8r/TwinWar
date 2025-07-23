@@ -22,8 +22,8 @@ public class FirstScreen implements Screen {
     @Override
     public void show() {
         fundo = new Fundo();
-        player = new Player(new Texture("Texturas/aviao.png"));
-        inimigo = new Inimigo(new Texture("Texturas/c418.png"));
+        player = new Player(new Texture("Texturas/Jogador.png"));
+        inimigo = new Inimigo(new Texture("Texturas/inimigo.png"));
         tiros = new ArrayList<>();
         torres = new ArrayList<>();
         Torre.criarTorres(torres, 5);
