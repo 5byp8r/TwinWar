@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Player extends ObjetoMovel {
     private Tiro[] tiros;
+    private int proximoTiro;
 
     public Player(Texture texture) {
         super(texture);
@@ -15,6 +16,9 @@ public class Player extends ObjetoMovel {
         for (int i = 0; i < tiros.length; i++) {
             tiros[i] = new Tiro(new Texture("Texturas/Tiro.png"), 20, 8);
         }
+        proximoTiro = 0;
+        sprite.setPosition((Main.viewport.getWorldWidth() / 2) - 0.5f, 0);
+
     }
 
     @Override
@@ -51,10 +55,14 @@ public class Player extends ObjetoMovel {
     public void atirar() {
         if (Gdx.input.isKeyPressed(Keys.SPACE) || (Controllers.getCurrent() == null ? false
                 : (Controllers.getCurrent().getButton(Controllers.getCurrent().getMapping().buttonA)))) {
-            for (Tiro tiro : tiros) {
-                if (tiro != null) {
-                    tiro.sprite.setPosition(sprite.getX() + sprite.getWidth()/2 - tiro.sprite.getWidth()/2, sprite.getY());
-                }
+
+            Tiro tiro = tiros[proximoTiro];
+            if (!tiro.isDisparado()) {
+                tiro.sprite.setPosition(sprite.getX() + sprite.getWidth() / 2 - tiro.sprite.getWidth() / 2,
+                        sprite.getY());
+                tiro.setDisparado(true);
+
+                proximoTiro = (proximoTiro + 1) % tiros.length;
             }
         }
     }

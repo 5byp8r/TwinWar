@@ -38,18 +38,20 @@ public class FirstScreen implements Screen {
     private void logic() {
         inimigo.mover();
         player.mover();
-        Torre.mover(torres, fundo.isMover(), player, player.getTiros());
+        Torre.mover(torres, fundo.isMover());
+        GerenciadorDeColisao.checarColisaoTorre(torres, player);
+        GerenciadorDeColisao.checarColisaoInimigo(inimigo, player);
         tempo += Gdx.graphics.getDeltaTime();
-        if (tempo >= Gdx.graphics.getDeltaTime() * 5) {
+        if (tempo >= Gdx.graphics.getDeltaTime() * 30) {
             player.atirar();
+            Torre.atirar(torres, fundo.isMover());
             tempo = 0;
         }
-        for (Tiro tiro : player.getTiros()) {
-            if (tiro != null) {
-                tiro.mover(10);
-            }
-        }
+        Tiro.updateTiros(player.getTiros());
         fundo.mover();
+        if (Main.numeroFase == 2) {
+            Menu.game.setScreen(new SecondScreen());
+        }
     }
 
     private void draw() {
@@ -59,11 +61,7 @@ public class FirstScreen implements Screen {
         fundo.draw();
         Torre.draw(torres);
         inimigo.draw();
-        for (Tiro tiro : player.getTiros()) {
-            if (tiro != null) {
-                tiro.draw();
-            }
-        }
+        Tiro.drawTiros(player.getTiros());
         player.draw();
         Main.batch.end();
     }

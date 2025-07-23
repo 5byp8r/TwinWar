@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Menu implements Screen{
 
-    Main game;
+    public static Main game;
     Texture backgroundTexture;
     private Stage stage;
     private Skin skin;

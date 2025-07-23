@@ -1,6 +1,7 @@
 .gitkeep
 Texturas/AviaoGuerra.jpg
 Texturas/FundoPrimeiraFase.png
+Texturas/FundoSegundaFase.png
 Texturas/Jogador.png
 Texturas/Tiro.png
 Texturas/Torre.png
