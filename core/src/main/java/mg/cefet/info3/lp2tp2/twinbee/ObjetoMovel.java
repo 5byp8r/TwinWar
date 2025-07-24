@@ -19,4 +19,8 @@ public abstract class ObjetoMovel {
     public void draw() {
         Main.batch.draw(sprite, sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
     }
+
+    public void dispose(){
+        sprite.getTexture().dispose();
+    }
 }

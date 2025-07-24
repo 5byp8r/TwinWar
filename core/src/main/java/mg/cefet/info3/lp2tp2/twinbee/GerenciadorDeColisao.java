@@ -30,6 +30,12 @@ public class GerenciadorDeColisao {
                     break;
                 }
             }
+            
+            if ((movel.sprite.getX() >= 9 || movel.sprite.getX() <= -1 || movel.sprite.getY() <= -1) && movel.sprite.getY() <= 7) {
+                iterator.remove();
+                System.out.println("Móvel desespawnou");
+                System.out.println("Atiradores: " + atiradores.size());
+            }
         }
     }
 }
