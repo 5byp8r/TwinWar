@@ -47,9 +47,8 @@ public class Fundo {
 
         if (!(backgroundSprite.getY() <= -16)) {
             backgroundSprite.translateY(-0.5f * Gdx.graphics.getDeltaTime());
-
         }
-        if ((backgroundSprite.getY() <= -10)) {
+        else {
             mover = false;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Inimigo extends Atirador {
     enum TipoInimigo {
-        ESTATICO(3),
+        ESTATICO(4),
         DINAMICO(5),
         CHEFE(1);
 
@@ -37,12 +37,6 @@ public class Inimigo extends Atirador {
 
     @Override
     public void mover() {
-        // if (posicao.y < 0) {
-        //     posicao.y = 8;
-        //     movimento = new FuncoesDeMovimentacao(tipo, new Vector2(playerSprite.getBoundingRectangle().getX(),
-        //             playerSprite.getBoundingRectangle().getY()), posicao, ordem);
-        // }
-
         movimento.verificacaoDinamica(
                 new Vector2(playerSprite.getBoundingRectangle().getX(), playerSprite.getBoundingRectangle().getY()));
         movimento.pegaPosicao();

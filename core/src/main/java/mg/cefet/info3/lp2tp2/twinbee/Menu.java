@@ -37,7 +37,7 @@ public class Menu implements Screen{
 
         button.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new FirstScreen());
+                game.setScreen(new FaseUm(game));
                 dispose();
             }
         });

@@ -1,6 +1,7 @@
 package mg.cefet.info3.lp2tp2.twinbee;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,13 +14,19 @@ import mg.cefet.info3.lp2tp2.twinbee.Inimigo.TipoInimigo;
 /**
  * First screen of the application. Displayed after the application is created.
  */
-public class SecondScreen implements Screen {
-    private float tempo = 0;
+public class FaseDois implements Screen {
+    public static Main game;
+    private float tempoTiro = 0, tempoSpawn = 0;
     private Fundo fundo;
     private Player player;
     // private Inimigo inimigo;
     // private ArrayList<Torre> torres;
     private ArrayList<Atirador> atiradores;
+    private boolean chefeAtivo = false;
+
+    public FaseDois (Main game) {
+        this.game = game; 
+    }
 
     @Override
     public void show() {
@@ -31,8 +38,8 @@ public class SecondScreen implements Screen {
 
         atiradores = new ArrayList<>();
 
-        Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.DINAMICO);        
-        Torre.criarTorres(atiradores, 5);
+        Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.DINAMICO);
+        Torre.criarTorres(atiradores, 100);
         // atiradores.addAll(torres);
     }
 
@@ -44,6 +51,18 @@ public class SecondScreen implements Screen {
     }
 
     private void logic() {
+        tempoSpawn += Gdx.graphics.getDeltaTime();
+        if (atiradores.size() == 0 && !fundo.isMover() && !chefeAtivo) {
+            for (int i = 0; i < 5; i++) {
+                Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.CHEFE);
+            }
+            chefeAtivo = true;
+        }
+        else if (fundo.isMover() && !chefeAtivo && tempoSpawn >= Gdx.graphics.getDeltaTime() * 60 * 10) {
+            Inimigo.criarInimigo(atiradores, player.sprite, new Random().nextInt(2) == 0 ? TipoInimigo.DINAMICO : TipoInimigo.ESTATICO);
+            tempoSpawn = 0;
+        }
+
         player.mover();
         for (Atirador atirador : atiradores) {
             atirador.mover();
@@ -56,20 +75,22 @@ public class SecondScreen implements Screen {
 
         GerenciadorDeColisao.checarColisao(atiradores, player);
 
-        tempo += Gdx.graphics.getDeltaTime();
-        if (tempo >= Gdx.graphics.getDeltaTime() * 30) {
+        tempoTiro += Gdx.graphics.getDeltaTime();
+        if (tempoTiro >= Gdx.graphics.getDeltaTime() * 30) {
             player.atirar();
             // inimigo.atirar();
             // Torre.atirar(torres, fundo.isMover());
             for (Atirador atirador : atiradores) {
                 atirador.atirar();
             }
-            tempo = 0;
+            tempoTiro = 0;
         }
         Tiro.updateTiros(player.getTiros());
         fundo.mover();
-        if (Main.numeroFase == 2) {
-            Menu.game.setScreen(new SecondScreen());
+        if ((atiradores.size() == 0 && chefeAtivo) || Main.numeroFase == 1) {
+            Main.numeroFase = 1;
+            Menu.game.setScreen(new Menu(game));
+            dispose();
         }
     }
 
@@ -120,5 +141,16 @@ public class SecondScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
+        if (fundo != null) {
+            fundo.dispose();
+        }
+        if (player != null) {
+            player.dispose();
+        }
+        if (atiradores != null) {
+            for (Atirador atirador : atiradores) {
+                atirador.dispose();
+            }
+        }
     }
 }

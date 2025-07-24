@@ -22,56 +22,9 @@ public class Torre extends Atirador {
         }
     }
 
-    public static void mover(ArrayList<Torre> torres, boolean isFundoMovendo) {
-        for (Torre torre : torres) {
-            torre.mover();
-        }
-        updateTorre(torres, isFundoMovendo);
-    }
-
     public static void criarTorres(ArrayList<Atirador> torres, int quantidade) {
         for (int i = 0; i < quantidade; i++) {
             torres.add(new Torre());
-        }
-    }
-
-    public static void draw(ArrayList<Torre> torres) {
-        for (Torre torre : torres) {
-            torre.draw();
-        }
-    }
-
-    // private static void posicionarTorres(ArrayList<Torre> torres) {
-    //     for (Torre torre : torres) {
-    //         if (Main.numeroFase == 1) {
-    //             torre.sprite.setPosition(random.nextFloat(4) + 3, random.nextFloat(10) + 8);
-    //         }
-    //         if (Main.numeroFase == 2) {
-    //             torre.sprite.setPosition(random.nextFloat(8), random.nextFloat(16) + 8);
-    //         }
-    //     }
-    // }
-
-    public static void atirar(ArrayList<Torre> torres, boolean isFundoMovendo) {
-        for (Torre torre : torres) {
-            //System.out.println();
-            torre.atirar();
-        }
-    }
-
-    public static void updateTorre(ArrayList<Torre> torres, boolean isFundoMovendo) {
-        iterator = torres.iterator();
-        while (iterator.hasNext()) {
-            Torre torre = iterator.next();
-
-            if (torre.sprite.getY() <= -2) {
-                iterator.remove();
-            }
-
-            if (!isFundoMovendo && Main.numeroFase != 2) {
-                iterator.remove();
-                System.out.println("Torre deletada");
-            }
         }
     }
 
