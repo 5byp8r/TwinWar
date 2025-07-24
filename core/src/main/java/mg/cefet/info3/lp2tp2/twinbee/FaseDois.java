@@ -11,48 +11,39 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import mg.cefet.info3.lp2tp2.twinbee.Inimigo.TipoInimigo;
 
-/**
- * First screen of the application. Displayed after the application is created.
- */
 public class FaseDois implements Screen {
     public static Main game;
     private float tempoTiro = 0, tempoSpawn = 0;
     private Fundo fundo;
     private Player player;
-    // private Inimigo inimigo;
-    // private ArrayList<Torre> torres;
     private ArrayList<Atirador> atiradores;
     private boolean chefeAtivo = false;
 
-    public FaseDois (Main game) {
+    public FaseDois (Main game, Player player) {
         this.game = game; 
+        this.player = player;
     }
 
     @Override
     public void show() {
         fundo = new Fundo();
-        player = new Player(new Texture("Texturas/jogador.png"));
-
-        // inimigo = new Inimigo(new Texture("Texturas/inimigo.png"), player.sprite);
-        // torres = new ArrayList<>();
+        player = new Player(new Texture("Texturas/jogador.png"), game);
 
         atiradores = new ArrayList<>();
 
         Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.DINAMICO);
         Torre.criarTorres(atiradores, 100);
-        // atiradores.addAll(torres);
     }
 
     @Override
     public void render(float delta) {
         logic();
         draw();
-        // Draw your screen here. "delta" is the time since last render in seconds.
     }
 
     private void logic() {
         tempoSpawn += Gdx.graphics.getDeltaTime();
-        if (atiradores.size() == 0 && !fundo.isMover() && !chefeAtivo) {
+        if (atiradores.isEmpty() && !fundo.isMover() && !chefeAtivo) {
             for (int i = 0; i < 5; i++) {
                 Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.CHEFE);
             }
@@ -63,23 +54,21 @@ public class FaseDois implements Screen {
             tempoSpawn = 0;
         }
 
+        if (player.vida == 0){
+            game.setScreen(new TelaGameOver(game));
+            
+        }
+
         player.mover();
         for (Atirador atirador : atiradores) {
             atirador.mover();
         }
-
-        // Torre.mover(torres, fundo.isMover());
-
-        // GerenciadorDeColisao.checarColisaoTorre(torres, player);
-        // GerenciadorDeColisao.checarColisaoInimigo(inimigo, player);
 
         GerenciadorDeColisao.checarColisao(atiradores, player);
 
         tempoTiro += Gdx.graphics.getDeltaTime();
         if (tempoTiro >= Gdx.graphics.getDeltaTime() * 30) {
             player.atirar();
-            // inimigo.atirar();
-            // Torre.atirar(torres, fundo.isMover());
             for (Atirador atirador : atiradores) {
                 atirador.atirar();
             }
@@ -104,15 +93,13 @@ public class FaseDois implements Screen {
             atirador.draw();
         }
         player.draw();
+        player.showStats();
         Main.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        // If the window is minimized on a desktop (LWJGL3) platform, width and height
-        // are 0, which causes problems.
-        // In that case, we don't resize anything, and wait for the window to be a
-        // normal size before updating.
+
         if (width <= 0 || height <= 0)
             return;
 
@@ -120,27 +107,22 @@ public class FaseDois implements Screen {
             Main.viewport.update(width, height, true);
         }
 
-        // Resize your screen here. The parameters represent the new window size.
     }
 
     @Override
     public void pause() {
-        // Invoked when your application is paused.
     }
 
     @Override
     public void resume() {
-        // Invoked when your application is resumed after pause.
     }
 
     @Override
     public void hide() {
-        // This method is called when another screen replaces this one.
     }
 
     @Override
     public void dispose() {
-        // Destroy screen's assets here.
         if (fundo != null) {
             fundo.dispose();
         }

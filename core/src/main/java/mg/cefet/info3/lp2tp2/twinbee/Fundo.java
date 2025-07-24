@@ -66,7 +66,6 @@ public class Fundo {
     }
 
     public void dispose() {
-        // Destroy screen's assets here.
         if (backgroundTexture != null) {
             backgroundTexture.dispose();
         }

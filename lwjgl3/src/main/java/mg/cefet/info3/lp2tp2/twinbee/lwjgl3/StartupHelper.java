@@ -12,14 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//Note, the above license and copyright applies to this file only.
 
 package mg.cefet.info3.lp2tp2.twinbee.lwjgl3;
-
-import com.badlogic.gdx.Version;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3NativesLoader;
-import org.lwjgl.system.macosx.LibC;
-import org.lwjgl.system.macosx.ObjCRuntime;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,8 +23,13 @@ import java.util.ArrayList;
 
 import static org.lwjgl.system.JNI.invokePPP;
 import static org.lwjgl.system.JNI.invokePPZ;
+import org.lwjgl.system.macosx.LibC;
+import org.lwjgl.system.macosx.ObjCRuntime;
 import static org.lwjgl.system.macosx.ObjCRuntime.objc_getClass;
 import static org.lwjgl.system.macosx.ObjCRuntime.sel_getUid;
+
+import com.badlogic.gdx.Version;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3NativesLoader;
 
 /**
  * Adds some utilities to ensure that the JVM was started with the

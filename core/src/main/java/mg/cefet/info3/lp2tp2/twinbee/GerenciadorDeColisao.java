@@ -11,12 +11,14 @@ public class GerenciadorDeColisao {
             
             if (player.sprite.getBoundingRectangle().overlaps(movel.sprite.getBoundingRectangle())) {
                 iterator.remove();
+                player.vida--;
                 System.out.println("Dano tomado");
             }
 
             for (Tiro tiro : movel.getTiros()) {
                 if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle())) {
                     System.out.println("Dano tomado");
+                    player.vida--;
                     tiro.sprite.setPosition(10, 0);
                     break;
                 }
@@ -24,7 +26,10 @@ public class GerenciadorDeColisao {
 
             for (Tiro tiro : player.getTiros()) {
                 if (tiro != null && tiro.sprite.getBoundingRectangle().overlaps(movel.sprite.getBoundingRectangle())) {
-                    iterator.remove();
+                    movel.vida--;
+                    if (movel.vida <= 0){
+                        iterator.remove();
+                    }
                     tiro.sprite.setX(15);
                     System.out.println("Móvel morto");
                     break;

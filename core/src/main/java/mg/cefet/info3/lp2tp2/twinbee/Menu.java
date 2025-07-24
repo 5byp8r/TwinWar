@@ -20,10 +20,12 @@ public class Menu implements Screen{
     private Skin skin;
     private TextButton button;
     Texture logoTexture;
+    Sons sons;
 
     public Menu(Main game) {
         this.game = game; 
         logoTexture = new Texture("Texturas/logo.png");
+        sons = new Sons();
     }
 
     public void button() {
@@ -60,6 +62,9 @@ public class Menu implements Screen{
         Main.batch.end();
         stage.draw();
         button();
+        if (!Sons.musica.isPlaying()) {
+            Sons.startMusic();
+        }
     }
 
     private void logic(){
@@ -74,14 +79,11 @@ public class Menu implements Screen{
     public void show() {
         backgroundTexture = new Texture("Texturas/AviaoGuerra.jpg");
         stage = new Stage();
+        
     }
 
     @Override
     public void resize(int width, int height) {
-        // If the window is minimized on a desktop (LWJGL3) platform, width and height
-        // are 0, which causes problems.
-        // In that case, we don't resize anything, and wait for the window to be a
-        // normal size before updating.
         if (width <= 0 || height <= 0){
             return;
         }
@@ -89,7 +91,6 @@ public class Menu implements Screen{
         if (width > 0 && height > 0) {
             Main.viewport.update(width, height, true);
         }
-        // Resize your screen here. The parameters represent the new window size.
     }
 
     @Override

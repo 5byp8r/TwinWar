@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 public abstract class Atirador extends ObjetoMovel {
     protected Tiro[] tiros;
     protected int proximoTiro;
+    Sons sons = new Sons();
+    protected int vida;
 
     public Atirador(Texture texture, int numTiros) {
         super(texture);
@@ -23,9 +25,11 @@ public abstract class Atirador extends ObjetoMovel {
                     sprite.getY());
             tiro.setDisparado(true);
             proximoTiro = (proximoTiro + 1) % tiros.length;
+            sons.somDeTiro();
         }
     }
 
+    @Override
     public void draw() {
         Main.batch.draw(sprite, sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
         for (Tiro tiro : tiros) {

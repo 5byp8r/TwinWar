@@ -6,12 +6,12 @@ Sons/musica.mp3
 Texturas/AviaoGuerra.jpg
 Texturas/FundoPrimeiraFase.png
 Texturas/FundoSegundaFase.png
+Texturas/Jogador.png
 Texturas/Tiro.png
 Texturas/Torre.png
 Texturas/chefe.png
 Texturas/inimigoDinamico.png
 Texturas/inimigoEstatico.png
-Texturas/jogador.png
 Texturas/logo.png
 ui/font-list.fnt
 ui/font-subtitle.fnt

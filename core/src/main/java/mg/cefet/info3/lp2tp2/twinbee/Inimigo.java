@@ -9,14 +9,16 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Inimigo extends Atirador {
     enum TipoInimigo {
-        ESTATICO(4),
-        DINAMICO(5),
-        CHEFE(1);
+        ESTATICO(3,1),
+        DINAMICO(5,1),
+        CHEFE(1,10);
 
-        public int valor;
+        public int quantidade;
+        public int vidas;
 
-        TipoInimigo(int valor) {
-            this.valor = valor;
+        TipoInimigo(int quantidade, int vidas) {
+            this.quantidade = quantidade;
+            this.vidas = vidas;
         }
     }
 
@@ -28,8 +30,6 @@ public class Inimigo extends Atirador {
         super(texture, 10);
         this.playerSprite = playerSprite;
         posicao = new Vector2(0, 9 + ordem);
-        // sprite.setPosition(Main.viewport.getWorldWidth() / 2,
-        // Main.viewport.getWorldHeight());
         movimento = new MovimentacaoInimigo(tipo,
                 new Vector2(playerSprite.getBoundingRectangle().getX(), playerSprite.getBoundingRectangle().getY()),
                 posicao, ordem, random);
@@ -74,7 +74,7 @@ public class Inimigo extends Atirador {
 
         Integer random = new Random().nextInt(6) + 1;
 
-        for (int i = 0; i < tipo.valor; i++) {
+        for (int i = 0; i < tipo.quantidade; i++) {
             atiradores.add(new Inimigo(texturaInimigo, playerSprite, tipo, i, random));
         }
     }

@@ -11,16 +11,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import mg.cefet.info3.lp2tp2.twinbee.Inimigo.TipoInimigo;
 
-/**
- * First screen of the application. Displayed after the application is created.
- */
 public class FaseUm implements Screen {
     public static Main game;
     private float tempoTiro = 0, tempoSpawn = 0;
     private Fundo fundo;
     private Player player;
-    // private Inimigo inimigo;
-    // private ArrayList<Torre> torres;
     private ArrayList<Atirador> atiradores;
     private boolean chefeAtivo = false;
 
@@ -31,23 +26,19 @@ public class FaseUm implements Screen {
     @Override
     public void show() {
         fundo = new Fundo();
-        player = new Player(new Texture("Texturas/jogador.png"));
+        player = new Player(new Texture("Texturas/jogador.png"), game);
 
-        // inimigo = new Inimigo(new Texture("Texturas/inimigo.png"), player.sprite);
-        // torres = new ArrayList<>();
 
         atiradores = new ArrayList<>();
         
         Inimigo.criarInimigo(atiradores, player.sprite, TipoInimigo.DINAMICO);
         Torre.criarTorres(atiradores, 5);
-        // atiradores.addAll(torres);
     }
 
     @Override
     public void render(float delta) {
         logic();
         draw();
-        // Draw your screen here. "delta" is the time since last render in seconds.
     }
 
     private void logic() {
@@ -61,23 +52,22 @@ public class FaseUm implements Screen {
             tempoSpawn = 0;
         }
 
+        if (player.vida == 0){
+            game.setScreen(new TelaGameOver(game));
+            
+        }
+
         player.mover();
         for (Atirador atirador : atiradores) {
             atirador.mover();
         }
-
-        // Torre.mover(torres, fundo.isMover());
-
-        // GerenciadorDeColisao.checarColisaoTorre(torres, player);
-        // GerenciadorDeColisao.checarColisaoInimigo(inimigo, player);
 
         GerenciadorDeColisao.checarColisao(atiradores, player);
 
         tempoTiro += Gdx.graphics.getDeltaTime();
         if (tempoTiro >= Gdx.graphics.getDeltaTime() * 30) {
             player.atirar();
-            // inimigo.atirar();
-            // Torre.atirar(torres, fundo.isMover());
+
             for (Atirador atirador : atiradores) {
                 atirador.atirar();
             }
@@ -87,7 +77,7 @@ public class FaseUm implements Screen {
         fundo.mover();
         if ((atiradores.size() == 0 && chefeAtivo) || Main.numeroFase == 2) {
             Main.numeroFase = 2;
-            Menu.game.setScreen(new FaseDois(game));
+            game.setScreen(new FaseDois(game, player));
             dispose();
         }
     }
@@ -102,43 +92,37 @@ public class FaseUm implements Screen {
             atirador.draw();
         }
         player.draw();
+        player.showStats();
         Main.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        // If the window is minimized on a desktop (LWJGL3) platform, width and height
-        // are 0, which causes problems.
-        // In that case, we don't resize anything, and wait for the window to be a
-        // normal size before updating.
         if (width <= 0 || height <= 0)
             return;
 
         if (width > 0 && height > 0) {
             Main.viewport.update(width, height, true);
         }
-
-        // Resize your screen here. The parameters represent the new window size.
     }
 
     @Override
     public void pause() {
-        // Invoked when your application is paused.
+
     }
 
     @Override
     public void resume() {
-        // Invoked when your application is resumed after pause.
+
     }
 
     @Override
     public void hide() {
-        // This method is called when another screen replaces this one.
+
     }
 
     @Override
     public void dispose() {
-        // Destroy screen's assets here.
         if (fundo != null) {
             fundo.dispose();
         }
@@ -150,9 +134,5 @@ public class FaseUm implements Screen {
                 atirador.dispose();
             }
         }
-        
-        // Note: Player and Atirador classes don't have dispose methods
-        // but they contain Texture objects that should ideally be disposed
-        // This would require adding dispose methods to those classes
     }
 }
